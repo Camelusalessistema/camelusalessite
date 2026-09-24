@@ -167,19 +167,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-5 gap-8 lg:items-center">
                 <!-- Card 1: Eventos de Conversão -->
-                <div class="lg:col-span-2 bg-[#f0f6ff] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+                <div class="lg:col-span-2 bg-[#f0f6ff] rounded-3xl p-8 sm:p-12 relative">
                     <h3 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 max-w-sm mx-auto lg:mx-0 text-center lg:text-left">Centralize tudo <br>no <span class="text-[#0066ff]">Camelu</span></h3>
                     
                     <!-- Imagem Like 3D -->
                     <div class="mt-4 text-center relative z-10">
-                        <img src="like.webp" alt="Like" class="mx-auto lg:mx-0 lg:ml-auto w-full max-w-[200px] lg:max-w-[280px] h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300" />
+                        <img src="like (1).png" alt="Like" class="mx-auto lg:mx-0 lg:ml-auto w-full max-w-[200px] lg:max-w-[280px] h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300" />
                     </div>
                 </div>
 
                 <!-- Card 2: Integrações Nativas -->
                 <div class="lg:col-span-3 relative">
                     <!-- Selo Camelu -->
-                    <img src="iconeselo.webp" alt="Selo de Integração" class="absolute -top-6 right-0 sm:-top-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 object-contain drop-shadow-xl z-20 animate-spin-slow" />
+                    <img src="iconeselo.png" alt="Selo de Integração" class="absolute -top-6 right-0 sm:-top-8 sm:-right-8 w-24 h-24 sm:w-32 sm:h-32 object-contain drop-shadow-xl z-20 animate-spin-slow" />
                     
                     <div class="bg-[#f0f6ff] rounded-3xl p-8 sm:p-12 relative flex flex-col overflow-hidden">
                         <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 max-w-sm">Integrações com várias ferramentas externas</h3>
@@ -713,10 +713,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <audio id="depoimento-audio" class="hidden" src="https://reciax.fun/wp-content/uploads/2026/06/depoimentosaudios.mp3" preload="metadata">
-                                Seu navegador não suporta o elemento de áudio.
-                            </audio>
                         </div>
                     </div>
                 </div>
@@ -919,7 +915,8 @@
         }
 
         // Audio Player Logic
-        const audio = document.getElementById('depoimento-audio');
+        const audio = new Audio('https://reciax.fun/wp-content/uploads/2026/06/depoimentosaudios.mp3');
+        audio.preload = 'metadata';
         const progressBar = document.getElementById('audio-progress');
         const progressContainer = document.getElementById('progress-container');
         const currentTimeEl = document.getElementById('audio-current');
