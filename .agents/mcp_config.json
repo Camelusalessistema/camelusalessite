@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dashboard-icons": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://dashboardicons.com/api/mcp"
+      ]
+    }
+  }
+}
