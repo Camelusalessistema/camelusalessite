@@ -699,22 +699,22 @@
                         <!-- O player em si. -->
                         <div class="bg-white/95 backdrop-blur-md p-4 sm:p-5 sm:px-6 rounded-2xl shadow-xl border border-gray-100 pointer-events-auto w-56 sm:w-72 transform -translate-y-8 -translate-x-12 md:-translate-y-12 md:-translate-x-16 -rotate-3">
                             <div class="flex items-center gap-4">
-                                <button class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-transform hover:scale-105 shrink-0 shadow-md">
-                                    <i data-lucide="play" class="w-5 h-5 sm:w-6 sm:h-6 ml-1"></i>
+                                <button id="play-audio-btn" onclick="toggleAudio()" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-transform hover:scale-105 shrink-0 shadow-md">
+                                    <i id="play-icon" data-lucide="play" class="w-5 h-5 sm:w-6 sm:h-6 ml-1"></i>
                                 </button>
                                 <div class="flex flex-col flex-1 w-full justify-center mt-1">
                                     <span class="text-sm sm:text-base font-bold text-gray-800 mb-1.5">Clique aqui</span>
-                                    <div class="w-full bg-gray-200 h-1.5 sm:h-2 rounded-full overflow-hidden cursor-pointer relative">
+                                    <div class="w-full bg-gray-200 h-1.5 sm:h-2 rounded-full overflow-hidden cursor-pointer relative" onclick="seekAudio(event)" id="progress-container">
                                         <div class="bg-primary w-0 h-full rounded-full transition-all duration-300" id="audio-progress"></div>
                                     </div>
                                     <div class="flex justify-between mt-1">
-                                        <span class="text-[10px] text-gray-400">0:00</span>
-                                        <span class="text-[10px] text-gray-400" id="audio-duration">0:00</span>
+                                        <span id="audio-current" class="text-[10px] text-gray-400">0:00</span>
+                                        <span id="audio-duration-text" class="text-[10px] text-gray-400">0:00</span>
                                     </div>
                                 </div>
                             </div>
                             
-                            <audio id="depoimento-audio" class="hidden">
+                            <audio id="depoimento-audio" class="hidden" src="https://reciax.fun/wp-content/uploads/2026/06/depoimentosaudios.mp3" preload="metadata">
                                 Seu navegador não suporta o elemento de áudio.
                             </audio>
                         </div>
@@ -916,6 +916,55 @@
             if (!isActive) {
                 element.classList.add('accordion-active');
             }
+        }
+
+        // Audio Player Logic
+        const audio = document.getElementById('depoimento-audio');
+        const progressBar = document.getElementById('audio-progress');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeEl = document.getElementById('audio-current');
+        const durationEl = document.getElementById('audio-duration-text');
+
+        function formatTime(seconds) {
+            if(isNaN(seconds)) return "0:00";
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            
+            if(audio.ended) {
+                document.getElementById('play-audio-btn').innerHTML = '<i data-lucide="play" class="w-5 h-5 sm:w-6 sm:h-6 ml-1"></i>';
+                lucide.createIcons();
+            }
+        });
+
+        function toggleAudio() {
+            const btn = document.getElementById('play-audio-btn');
+            if (audio.paused) {
+                audio.play();
+                btn.innerHTML = '<i data-lucide="pause" class="w-5 h-5 sm:w-6 sm:h-6"></i>';
+            } else {
+                audio.pause();
+                btn.innerHTML = '<i data-lucide="play" class="w-5 h-5 sm:w-6 sm:h-6 ml-1"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        function seekAudio(event) {
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            const clickPercent = clickX / width;
+            audio.currentTime = clickPercent * audio.duration;
         }
     </script>
 </body>
